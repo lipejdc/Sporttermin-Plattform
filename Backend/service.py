@@ -12,13 +12,13 @@ def user_get(id: str = "", email: str = "", passwd:str = "") -> set:
             user = session.scalars(select(User).where(User.id == id)).one()
             
             if user:
-                return user.to_json()
+                return json.dumps(user.to_dict())
             
         elif email != "" and passwd != "":
             user = session.scalars(select(User).where(User.id == id)).one()
             
             if user:
-                return user.to_json()
+                return json.dumps(user.to_dict())
         else:
             users = session.scalars(select(User)).all()
         
@@ -46,7 +46,7 @@ def user_update(id: str, first_name: str, last_name: str, email: str, passwd: st
             
             session.commit()
             
-            return user.to_json()
+            return json.dumps(user.to_dict())
             
     return ("{}")
 
@@ -67,7 +67,7 @@ def user_create(first_name: str, last_name: str, email: str, passwd: str, gender
             session.add(user)
             session.commit()
             
-            return user.to_json()
+            return json.dumps(user.to_dict())
             
     return ("{}")
 
@@ -90,7 +90,7 @@ def fz_get(user_id: str, fz_id: str = "") -> str:
             fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).one()
             
             if fz:
-                return fz.to_json()
+                return json.dumps(fz.to_dict())
             
         elif user_id != "":
             user = session.scalars(select(User).where(User.id == id)).one()
@@ -122,7 +122,7 @@ def fz_create(user_id: str, name: str) -> str:
             
             session.commit()
             
-            return fz.to_json()
+            return json.dumps(fz.to_dict())
             
     return ("{}")
 
@@ -137,7 +137,7 @@ def fz_update(fz_id: str, name) -> str:
                 
                 session.commit()
                 
-                return fz.to_json()
+                return json.dumps(fz.to_dict())
             
         return ("{}")
 
@@ -160,7 +160,7 @@ def apt_get(user_id: str, apt_id: str = "") -> str:
             apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
             
             if apt:
-                return apt.to_json()
+                return json.dumps(apt.to_dict())
             
         elif user_id != "":
             user = session.scalars(select(User).where(User.id == id)).one()
@@ -199,7 +199,7 @@ def apt_create(user_id: str, name: str, date: datetime, time_start: str, time_st
             
             session.commit()
             
-            return apt.to_json()
+            return json.dumps(apt.to_dict())
             
     return ("{}")
 
@@ -220,7 +220,7 @@ def apt_update(apt_id: str, name: str, date: datetime, time_start: str, time_sto
                 
                 session.commit()
                 
-                return apt.to_json()
+                return json.dumps(apt.to_dict())
             
         return ("{}")
 
@@ -243,7 +243,7 @@ def comment_get(user_id: str = "", apt_id: str = "", comment_id: str = "") -> st
             comment = session.scalars(select(Comment).where(Comment.id == comment_id)).one()
             
             if comment:
-                return comment.to_json()
+                return json.dumps(comment.to_dict())
             
         elif user_id != "":
             user = session.scalars(select(User).where(User.id == user_id)).one()
@@ -291,7 +291,7 @@ def comment_create(user_id: str, apt_id: str, timestamp: str, comment_value) -> 
             
             session.commit()
             
-            return comment.to_json()
+            return json.dumps(comment.to_dict())
             
     return ("{}")
 
@@ -312,7 +312,7 @@ def comment_update(user_id: str, apt_id: str, timestamp: str, comment_value) -> 
             
             session.commit()
             
-            return comment.to_json()
+            return json.dumps(comment.to_dict())
             
     return ("{}")
 
