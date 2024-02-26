@@ -2,12 +2,14 @@ from sqlalchemy import (
     Column, String, Integer, DateTime, ForeignKey, Boolean, Table, create_engine
 )
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship, Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_utils import database_exists, create_database
 import uuid
 
 Base = declarative_base()
+
+gEngine = None
 
 # Association tables
 user_appointment = Table(
@@ -112,3 +114,19 @@ def create_db_if_not_exists():
         print("Tabellen wurden erstellt.")
     else:
         print("DB exists")
+        
+    global gEngine
+    gEngine = engine
+
+
+def get_session():
+    global gEngine
+    if gEngine != None:
+        return Session(gEngine)
+    else:
+        connection_string = "sqlite:///test.sqlite"
+        engine = create_engine(connection_string)
+        
+        gEngine = engine
+        
+        return Session(gEngine)
