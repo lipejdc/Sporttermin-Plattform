@@ -206,6 +206,29 @@ def apt_get(apt_id=""):
     return service.apt_get(user_id, apt_id), 200
 
 
+@app.route("/api/appointment/", methods=["POST"])
+def apt_create():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    content = request.json
+    
+    user_id = content["user_id"]
+    name = content["name"]
+    date = content["date"]
+    time_start = content["time_start"]
+    time_stop = content["time_stop"]
+    citycode = content["citycode"]
+    city = content["city"]
+    maxUser = content["maxUser"]
+    notice = content["notice"]
+    friendzone_id = content["friendzone_id"]
+    
+    return service.apt_create(user_id = user_id, name = name, date = date, time_start = time_start, time_stop = time_stop, citycode = citycode, city = city, maxUser = maxUser, notice = notice, friendzone_id = friendzone_id), 200
+
+
 @app.route("/api/comment/", methods=["GET"])
 @app.route("/api/comment/<string:apt_id>", methods=["GET"])
 def comment_get(apt_id=""):

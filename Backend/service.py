@@ -186,9 +186,10 @@ def apt_get(user_id: str, apt_id: str = "") -> str:
         return ("[]")
     
     
-def apt_create(user_id: str, name: str, date: datetime, time_start: str, time_stop: str, citycode: int, city: str, maxUser: int, notice: str) -> str:
+def apt_create(user_id: str, name: str, date: datetime, time_start: str, time_stop: str, citycode: int, city: str, maxUser: int, notice: str, friendzone_id: str) -> str:
     with ORM.get_session() as session:
         user = session.scalars(select(User).where(User.id == user_id)).first()
+        fz = session.scalars(select(Friendzone).where(Friendzone.id == friendzone_id)).first()
         
         if user:
             apt = Appointment()
@@ -203,6 +204,7 @@ def apt_create(user_id: str, name: str, date: datetime, time_start: str, time_st
             apt.notice = notice
             
             user.appointments.append(apt)
+            fz.appointments.append(apt)
             
             session.commit()
             
