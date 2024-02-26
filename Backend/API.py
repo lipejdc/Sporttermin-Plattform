@@ -40,9 +40,10 @@ def login():
     passwd = content["passwd"]
     
     user = json.loads(service.user_get(email=email, passwd=hash_pw(passwd)))
+    print(user)
 
-    if user != None:
-        unencoded_session_id = user.id + str(datetime.datetime.now())
+    if user != None and type(user) != list:
+        unencoded_session_id = user["id"] + str(datetime.datetime.now())
         session_id = hashlib.sha256(unencoded_session_id.encode("utf-8")).hexdigest()
         session["session_id"] = session_id
         active_users[session_id] = user["id"]
@@ -72,6 +73,12 @@ def register():
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         errors += 1
         msg += "Die E-Mail-Adresse ist nicht valide\r\n"
+    else:
+        email_user = service.user_get(email=email)
+        
+        if type(email_user) != list and email_user != None:
+            errors += 1
+            msg += "Email schon vergeben\r\n"
         
     try:
         gender = int(gender)
@@ -110,9 +117,10 @@ def home_page():
     
     if user_id == "":
         return {}, 401
-    
+    print("home, logged in, pre appointments")
     # send all upcoming appointments to the site, as this is the standard-view/-tab
     appointments = service.apt_get(user_id=user_id)
+    print("home, logged in, post appointments")
     if len(appointments) > 1:
         appointments = sorted(appointments, reverse=True, key= lambda apt: apt["date"])
     
@@ -176,8 +184,8 @@ def change_profile():
     return {}, 200
 
 
-@app.route("/api/Friendzone/", methods=["GET"])
-@app.route("/api/Friendzone/<string:fz_id>", methods=["GET"])
+@app.route("/api/friendzone/", methods=["GET"])
+@app.route("/api/friendzone/<string:fz_id>", methods=["GET"])
 def fz_get(fz_id=""):
     user_id = get_user_id_from_session(session)
     
@@ -187,8 +195,8 @@ def fz_get(fz_id=""):
     return service.fz_get(user_id, fz_id), 200
 
 
-@app.route("/api/Appointment/", methods=["GET"])
-@app.route("/api/Appointment/<string:apt_id>", methods=["GET"])
+@app.route("/api/appointment/", methods=["GET"])
+@app.route("/api/appointment/<string:apt_id>", methods=["GET"])
 def apt_get(apt_id=""):
     user_id = get_user_id_from_session(session)
     
@@ -198,8 +206,8 @@ def apt_get(apt_id=""):
     return service.apt_get(user_id, apt_id), 200
 
 
-@app.route("/api/Comment/", methods=["GET"])
-@app.route("/api/Comment/<string:apt_id>", methods=["GET"])
+@app.route("/api/comment/", methods=["GET"])
+@app.route("/api/comment/<string:apt_id>", methods=["GET"])
 def comment_get(apt_id=""):
     user_id = get_user_id_from_session(session)
     

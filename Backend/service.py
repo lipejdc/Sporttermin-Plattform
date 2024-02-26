@@ -19,6 +19,11 @@ def user_get(id: str = "", email: str = "", passwd:str = "") -> set:
             
             if user:
                 return json.dumps(user.to_dict())
+        elif email != "":
+            user = session.scalars(select(User).where(User.email == email)).first()
+            
+            if user:
+                return json.dumps(user.to_dict())
         else:
             users = session.scalars(select(User)).all()
         
@@ -93,7 +98,7 @@ def fz_get(user_id: str, fz_id: str = "") -> str:
                 return json.dumps(fz.to_dict())
             
         elif user_id != "":
-            user = session.scalars(select(User).where(User.id == id)).first()
+            user = session.scalars(select(User).where(User.id == user_id)).first()
             
             if user:
                 fzs = user.friendzones
@@ -109,9 +114,9 @@ def fz_get(user_id: str, fz_id: str = "") -> str:
         return ("[]")
 
 
-def fz_create(user_id: str, name: str) -> str:
+def fz_create(user_id: str, name: str) -> str:                    
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == id)).first()
+        user = session.scalars(select(User).where(User.id == user_id)).first()
         
         if user:
             fz = Friendzone()
@@ -156,6 +161,7 @@ def fz_delete(fz_id: str = "") -> str:
 
 def apt_get(user_id: str, apt_id: str = "") -> str:
     with ORM.get_session() as session:
+        print(f"\tIn apt_get with user_id: {user_id} and apt_id: {apt_id}")
         if apt_id != "":
             apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
             
@@ -163,8 +169,9 @@ def apt_get(user_id: str, apt_id: str = "") -> str:
                 return json.dumps(apt.to_dict())
             
         elif user_id != "":
-            user = session.scalars(select(User).where(User.id == id)).first()
-            
+            print("\tIn apt_get in has user_id")
+            user = session.scalars(select(User).where(User.id == user_id)).first()
+            print("\tFound User!")
             if user:
                 apts = user.appointments
                 
