@@ -175,7 +175,7 @@ def change_profile():
 
 
 @app.route("/api/Friendzone/", methods=["GET"])
-@app.route("/api/Friendzone/<fz_id: str>", methods=["GET"])
+@app.route("/api/Friendzone/<string:fz_id>", methods=["GET"])
 def fz_get(fz_id=""):
     user_id = get_user_id_from_session(session)
     
@@ -186,7 +186,7 @@ def fz_get(fz_id=""):
 
 
 @app.route("/api/Appointment/", methods=["GET"])
-@app.route("/api/Appointment/<apt_id: str>", methods=["GET"])
+@app.route("/api/Appointment/<string:apt_id>", methods=["GET"])
 def apt_get(apt_id=""):
     user_id = get_user_id_from_session(session)
     
@@ -197,7 +197,7 @@ def apt_get(apt_id=""):
 
 
 @app.route("/api/Comment/", methods=["GET"])
-@app.route("/api/Comment/<apt_id: str>", methods=["GET"])
+@app.route("/api/Comment/<string:apt_id>", methods=["GET"])
 def comment_get(apt_id=""):
     user_id = get_user_id_from_session(session)
     
