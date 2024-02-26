@@ -7,7 +7,8 @@ import os
 from flask import Flask, request, jsonify, session, render_template, redirect
 
 template_dir = os.path.abspath("../Frondend")
-app = Flask(__name__, template_folder=template_dir)
+print(template_dir)
+app = Flask(__name__, template_folder=template_dir, static_folder=template_dir, static_url_path="/static/")
 app.secret_key = "OSP_SECRET_KEY::TODO:CHANGE!"
 
 active_users = {}  # key: session_id, value: user_id
@@ -31,19 +32,20 @@ def login_page():
     return render_template('loginPage/loginPage.html')
 
 
-@app.route("/", methods=["POST"])
+@app.route("/login", methods=["POST"])
 def login():
     content = request.json
     
     email = content["email"]
     passwd = content["passwd"]
     
-    user_list = json.loads(service.user_get(email=email, passwd=passwd))
-    if len(user_list.keys()) == 1:
-        unencoded_session_id = user_list.keys()[0] + str(datetime.datetime.now())
+    user = json.loads(service.user_get(email=email, passwd=hash_pw(passwd)))
+
+    if user != None:
+        unencoded_session_id = user.id + str(datetime.datetime.now())
         session_id = hashlib.sha256(unencoded_session_id.encode("utf-8")).hexdigest()
         session["session_id"] = session_id
-        active_users["session_id"] = user_list["id"]
+        active_users[session_id] = user["id"]
         
         return {}, 200
     
@@ -90,12 +92,12 @@ def register():
     # No clear pass on the db!
     passwd = hash_pw(passwd)
     
-    user_list = json.loads(service.user_create(first_name, last_name, email, passwd, gender, age, city))
-    if len(user_list.keys()) == 1:
-        unencoded_session_id = user_list.keys()[0] + str(datetime.datetime.now())
+    user = json.loads(service.user_create(first_name, last_name, email, passwd, gender, age, city))
+    if user != None:
+        unencoded_session_id = user["id"] + str(datetime.datetime.now())
         session_id = hashlib.sha256(unencoded_session_id.encode("utf-8")).hexdigest()
         session["session_id"] = session_id
-        active_users["session_id"] = user_list["id"]
+        active_users[session_id] = user["id"]
         
         return {}, 200
     
@@ -114,7 +116,7 @@ def home_page():
     if len(appointments) > 1:
         appointments = sorted(appointments, reverse=True, key= lambda apt: apt["date"])
     
-    return {"appointments": appointments}, 200
+    return render_template("upcoming/upcoming.html", data={"appointments": appointments}), 200
 
 
 # Settings will be a Pop-Up/Slide-In on the homepage
@@ -124,13 +126,13 @@ def change_profile():
     user_id = get_user_id_from_session(session)
     
     if user_id == "":
-        return jsonify({"error_msg": "Bitte einloggen!"})
+        return {}, 401
     
-    user_list = json.loads(service.user_get(id=user_id))
-    if len(user_list.keys()) != 1:
-        return jsonify({"error_msg": "Bitte registrieren!"})
+    user = json.loads(service.user_get(id=user_id))
+    if user == None:
+        return {}, 401
     
-    user_info = user_list[0]
+    user_info = user
     
     content = request.json
     

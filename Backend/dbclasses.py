@@ -101,7 +101,7 @@ class Friendzone(Base):
 def create_db_if_not_exists():
     # Hier setzt du den korrekten Connection String für deine MSSQL-Datenbank ein
     connection_string = "sqlite:///test.sqlite"
-    engine = create_engine(connection_string)
+    engine = create_engine(connection_string, echo=True)
 
     # Überprüfe, ob die Datenbank existiert
     if not database_exists(engine.url):
@@ -125,7 +125,7 @@ def get_session():
         return Session(gEngine)
     else:
         connection_string = "sqlite:///test.sqlite"
-        engine = create_engine(connection_string)
+        engine = create_engine(connection_string, echo=True)
         
         gEngine = engine
         

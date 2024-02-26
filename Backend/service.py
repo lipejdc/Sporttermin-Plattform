@@ -9,31 +9,31 @@ ORM.create_db_if_not_exists()
 def user_get(id: str = "", email: str = "", passwd:str = "") -> set:
     with ORM.get_session() as session:
         if id != "":
-            user = session.scalars(select(User).where(User.id == id)).one()
+            user = session.scalars(select(User).where(User.id == id)).first()
             
             if user:
                 return json.dumps(user.to_dict())
             
         elif email != "" and passwd != "":
-            user = session.scalars(select(User).where(User.id == id)).one()
+            user = session.scalars(select(User).where(User.email == email).where(User.passwd == passwd)).first()
             
             if user:
                 return json.dumps(user.to_dict())
         else:
             users = session.scalars(select(User)).all()
         
-            users_dict = {}
+            users_list = []
             for user in users:
-                users_dict[user.id] = user.to_dict()
+                users_list.append(user.to_dict())
                 
-            return json.dumps(users_dict)
+            return json.dumps(users_list)
             
-        return ("{}")
+        return ("[]")
 
 
 def user_update(id: str, first_name: str, last_name: str, email: str, passwd: str, gender: int, age: int, city: str):
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == id)).one()
+        user = session.scalars(select(User).where(User.id == id)).first()
         
         if user:
             user.first_name = first_name
@@ -74,7 +74,7 @@ def user_create(first_name: str, last_name: str, email: str, passwd: str, gender
 
 def user_delete(id: str):
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == id)).one()
+        user = session.scalars(select(User).where(User.id == id)).first()
         
         if(user):
             session.delete(user)
@@ -87,31 +87,31 @@ def user_delete(id: str):
 def fz_get(user_id: str, fz_id: str = "") -> str:
     with ORM.get_session() as session:
         if fz_id != "":
-            fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).one()
+            fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).first()
             
             if fz:
                 return json.dumps(fz.to_dict())
             
         elif user_id != "":
-            user = session.scalars(select(User).where(User.id == id)).one()
+            user = session.scalars(select(User).where(User.id == id)).first()
             
             if user:
                 fzs = user.friendzones
                 
                 if fzs and len(fzs) > 0:
-                    fzs_dict = {}
+                    fzs_list = []
                     
                     for fz in fzs:
-                        fzs_dict[fz.id] = fz
+                        fzs_list.append(fz)
                 
-                    return json.dumps(fzs_dict)
+                    return json.dumps(fzs_list)
             
-        return ("{}")
+        return ("[]")
 
 
 def fz_create(user_id: str, name: str) -> str:
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == id)).one()
+        user = session.scalars(select(User).where(User.id == id)).first()
         
         if user:
             fz = Friendzone()
@@ -130,7 +130,7 @@ def fz_create(user_id: str, name: str) -> str:
 def fz_update(fz_id: str, name) -> str:
     with ORM.get_session() as session:
         if fz_id and fz_id != "":
-            fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).one()
+            fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).first()
             
             if fz:
                 fz.name = name
@@ -144,7 +144,7 @@ def fz_update(fz_id: str, name) -> str:
 
 def fz_delete(fz_id: str = "") -> str:
     with ORM.get_session() as session:
-        fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).one()
+        fz = session.scalars(select(Friendzone).where(Friendzone.id == fz_id)).first()
         
         if(fz):
             session.delete(fz)
@@ -157,31 +157,31 @@ def fz_delete(fz_id: str = "") -> str:
 def apt_get(user_id: str, apt_id: str = "") -> str:
     with ORM.get_session() as session:
         if apt_id != "":
-            apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
+            apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
             
             if apt:
                 return json.dumps(apt.to_dict())
             
         elif user_id != "":
-            user = session.scalars(select(User).where(User.id == id)).one()
+            user = session.scalars(select(User).where(User.id == id)).first()
             
             if user:
                 apts = user.appointments
                 
                 if apts and len(apts) > 0:
-                    apts_dict = {}
+                    apts_list = []
                     
                     for apt in apts:
-                        apts_dict[apt.id] = apt
+                        apts_list.append(apt)
                 
-                    return json.dumps(apts_dict)
+                    return json.dumps(apts_list)
             
-        return ("{}")
+        return ("[]")
     
     
 def apt_create(user_id: str, name: str, date: datetime, time_start: str, time_stop: str, citycode: int, city: str, maxUser: int, notice: str) -> str:
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == user_id)).one()
+        user = session.scalars(select(User).where(User.id == user_id)).first()
         
         if user:
             apt = Appointment()
@@ -207,7 +207,7 @@ def apt_create(user_id: str, name: str, date: datetime, time_start: str, time_st
 def apt_update(apt_id: str, name: str, date: datetime, time_start: str, time_stop: str, citycode: int, city: str, maxUser: int, notice: str) -> str:
     with ORM.get_session() as session:
         if apt_id and apt_id != "":
-            apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
+            apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
             
             if apt:
                 apt.date = date
@@ -227,7 +227,7 @@ def apt_update(apt_id: str, name: str, date: datetime, time_start: str, time_sto
 
 def apt_delete(apt_id: str = "") -> str:
     with ORM.get_session() as session:
-        apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
+        apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
         
         if(apt):
             session.delete(apt)
@@ -240,45 +240,45 @@ def apt_delete(apt_id: str = "") -> str:
 def comment_get(user_id: str = "", apt_id: str = "", comment_id: str = "") -> str:
     with ORM.get_session() as session:
         if comment_id != "":
-            comment = session.scalars(select(Comment).where(Comment.id == comment_id)).one()
+            comment = session.scalars(select(Comment).where(Comment.id == comment_id)).first()
             
             if comment:
                 return json.dumps(comment.to_dict())
             
         elif user_id != "":
-            user = session.scalars(select(User).where(User.id == user_id)).one()
+            user = session.scalars(select(User).where(User.id == user_id)).first()
             
             if user:
                 comments = user.comments
                 
                 if comments and len(comments) > 0:
-                    comments_dict = {}
+                    comments_list = []
                     
                     for comment in comments:
-                        comments_dict[comment.id] = comment
+                        comments_list.append(comment)
                 
-                    return json.dumps(comments_dict)
+                    return json.dumps(comments_list)
         elif apt_id != "":
-            apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
+            apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
             
             if apt:
                 comments = apt.comments
                 
                 if comments and len(comments) > 0:
-                    comments_dict = {}
+                    comments_list = []
                     
                     for comment in comments:
-                        comments_dict[comment.id] = comment
+                        comments_list.append(comment)
                 
-                    return json.dumps(comments_dict)
+                    return json.dumps(comments_list)
             
         return ("{}")
     
     
 def comment_create(user_id: str, apt_id: str, timestamp: str, comment_value) -> str:
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == user_id)).one()
-        apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
+        user = session.scalars(select(User).where(User.id == user_id)).first()
+        apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
         
         if user and apt:
             comment = Comment()
@@ -298,8 +298,8 @@ def comment_create(user_id: str, apt_id: str, timestamp: str, comment_value) -> 
 
 def comment_update(user_id: str, apt_id: str, timestamp: str, comment_value) -> str:
     with ORM.get_session() as session:
-        user = session.scalars(select(User).where(User.id == user_id)).one()
-        apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).one()
+        user = session.scalars(select(User).where(User.id == user_id)).first()
+        apt = session.scalars(select(Appointment).where(Appointment.id == apt_id)).first()
         
         if user and apt:
             comment = Comment()
@@ -319,7 +319,7 @@ def comment_update(user_id: str, apt_id: str, timestamp: str, comment_value) -> 
 
 def comment_delete(comment_id: str = "") -> str:
     with ORM.get_session() as session:
-        comment = session.scalars(select(Comment).where(Comment.id == comment_id)).one()
+        comment = session.scalars(select(Comment).where(Comment.id == comment_id)).first()
         
         if(comment):
             session.delete(comment)
