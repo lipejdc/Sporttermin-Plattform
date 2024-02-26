@@ -1,4 +1,4 @@
-var loginForm = document.getElementById('login-form').addEventListener('submit', function(event) {
+var loginForm = document.getElementById('form-login').addEventListener('submit', function(event) {
     event.preventDefault();
 
     var email = document.getElementById('email').value;
