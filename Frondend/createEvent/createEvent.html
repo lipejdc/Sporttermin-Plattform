@@ -38,15 +38,16 @@
         </div>
     </nav>
 <!-- Buttons for filtering -->
-    <div class="text-center">
+    <div class="text-center d-flex justify-content-center">
         <a href="#anstehend" class="headlinesNav">Anstehend</a>
-        <a href="#privat" class="headlinesNav" style="text-decoration:underline;">Anfragen</a>
-        <a href="../createEvent/createEvent.html" class="headlinesNav">Event erstellen</a>
+        <a href="#privat" class="headlinesNav">Anfragen</a>
+        <a href="../createEvent/createEvent.html" class="headlinesNav" style="text-decoration:underline;">Event erstellen</a>
     </div>
     <!-- Formulars -->
+    <section class="main-content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4 offset-md-1">
                 <form>
                     <div class="mb-3">
                         <label for="eventname" class="form-label">Eventname</label> 
@@ -65,9 +66,9 @@
                         <input type="text" class="form-control" id="date" placeholder="Datum">
                     </div>
                     <div class="mb-3">
-                        <label for="startingtime" class="form-label">Startzeit</label> 
-                        <input type="text" class="form-control" id="startingtime" placeholder="mm:hh">
-                    </div>
+                        <label for="location" class="form-label">Ort</label>
+                        <input type="location" class="form-control" id="location" placeholder="Ort">
+                      </div>
                     <div class="mb-3">
                         <label for="participants" class="form-label">Teilnehmeranzahl</label> 
                         <input type="text" class="form-control" id="participants" placeholder="Zahl">
@@ -78,32 +79,38 @@
                     </div>
                   </form>
             </div>
-            <div class="col-md-4">
-                <form>
+            <div class="col-md-4 offset-md-1">
                     <div class="mb-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Gruppe</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
+                            <label for="select-group" class="form-label">Gruppe</label>
+                            <select class="form-select" id="select-group">
+                                <option disabled selected value="">Bitte wählen</option>
                               <option>Gruppe 1</option>
                               <option>Gruppe 2</option>
                               <option>Gruppe 3</option>
                               <option>Gruppe 4</option>
                               <option>Gruppe 5</option>
                             </select>
-                          </div>
+                        </div>
                     <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1">
+                      <label for="number" class="form-label">Nr.</label>
+                      <input type="number" class="form-control" id="number" placeholder="Nr.">
                     </div>
-                    <div class="mb-3 form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <div class="mb-3">
+                        <label for="startingtime" class="form-label">Startzeit</label> 
+                        <input type="text" class="form-control" id="startingtime" placeholder="mm:hh">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
+                      <div class="mb-3">
+                        <label for="endtime" class="form-label">Endzeit</label>
+                        <input type="endtime" class="form-control" id="endtime" placeholder="mm:hh">
+                      </div>
+
+                    
+                    <button type="submit" class="btn btn-primary">Absenden</button>
+                    
             </div>
         </div>
     </div>
+</section>
     <!-- Footer -->
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-5 border-top">
         <div class="col-md-4 d-flex align-items-center">
