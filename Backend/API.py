@@ -36,8 +36,11 @@ def login_page():
 def login():
     content = request.json
     
-    email = content["email"]
-    passwd = content["passwd"]
+    try:
+        email = content["email"]
+        passwd = content["passwd"]
+    except:
+        return {}, 404
     
     user = json.loads(service.user_get(email=email, passwd=hash_pw(passwd)))
     print(user)
@@ -59,13 +62,16 @@ def login():
 def register():
     content = request.json
     
-    first_name = content["first_name"]
-    last_name = content["last_name"]
-    email = content["email"]
-    passwd = content["passwd"]
-    gender = content["gender"]
-    age = content["age"]
-    city = content["city"]
+    try:
+        first_name = content["first_name"]
+        last_name = content["last_name"]
+        email = content["email"]
+        passwd = content["passwd"]
+        gender = content["gender"]
+        age = content["age"]
+        city = content["city"]
+    except:
+        return {}, 404
     
     errors = 0
     msg = ""
@@ -117,10 +123,10 @@ def home_page():
     
     if user_id == "":
         return {}, 401
-    print("home, logged in, pre appointments")
+    
     # send all upcoming appointments to the site, as this is the standard-view/-tab
     appointments = service.apt_get(user_id=user_id)
-    print("home, logged in, post appointments")
+    
     if len(appointments) > 1:
         appointments = sorted(appointments, reverse=True, key= lambda apt: apt["date"])
     
@@ -144,13 +150,16 @@ def change_profile():
     
     content = request.json
     
-    first_name = content["first_name"]
-    last_name = content["last_name"]
-    email = content["email"]
-    passwd = content["passwd"]
-    gender = content["gender"]
-    age = content["age"]
-    city = content["city"]
+    try:
+        first_name = content["first_name"]
+        last_name = content["last_name"]
+        email = content["email"]
+        passwd = content["passwd"]
+        gender = content["gender"]
+        age = content["age"]
+        city = content["city"]
+    except:
+        return {}, 404
     
     errors = 0
     msg = ""
@@ -195,6 +204,23 @@ def fz_get(fz_id=""):
     return service.fz_get(user_id, fz_id), 200
 
 
+@app.route("/api/friendzone/", methods=["POST"])
+def fz_create():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    content = request.json
+    
+    try:
+        name = content["name"]
+    except:
+        return {}, 404
+    
+    return service.fz_create(user_id=user_id, name=name), 200
+
+
 @app.route("/api/appointment/", methods=["GET"])
 @app.route("/api/appointment/<string:apt_id>", methods=["GET"])
 def apt_get(apt_id=""):
@@ -215,16 +241,19 @@ def apt_create():
     
     content = request.json
     
-    user_id = content["user_id"]
-    name = content["name"]
-    date = content["date"]
-    time_start = content["time_start"]
-    time_stop = content["time_stop"]
-    citycode = content["citycode"]
-    city = content["city"]
-    maxUser = content["maxUser"]
-    notice = content["notice"]
-    friendzone_id = content["friendzone_id"]
+    try:
+        user_id = content["user_id"]
+        name = content["name"]
+        date = content["date"]
+        time_start = content["time_start"]
+        time_stop = content["time_stop"]
+        citycode = content["citycode"]
+        city = content["city"]
+        maxUser = content["maxUser"]
+        notice = content["notice"]
+        friendzone_id = content["friendzone_id"]
+    except:
+        return {}, 404
     
     return service.apt_create(user_id = user_id, name = name, date = date, time_start = time_start, time_stop = time_stop, citycode = citycode, city = city, maxUser = maxUser, notice = notice, friendzone_id = friendzone_id), 200
 
@@ -238,6 +267,26 @@ def comment_get(apt_id=""):
         return {}, 401
     
     return service.comment_get(user_id, apt_id), 200
+
+
+@app.route("/api/comment", methods=["POST"])
+def comment_create():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id != "":
+        return {}, 401
+    
+    content = request.json
+    
+    try:
+        user_id = content["user_id"]
+        apt_id = content["apt_id"]
+        timestamp = content["timestamp"]
+        comment_value = content["comment_value"]
+    except:
+        return {}, 404
+    
+    return service.comment_create(user_id=user_id, apt_id=apt_id, timestamp=timestamp, comment_value=comment_value), 200   
 
 
 if __name__ == "__main__":
