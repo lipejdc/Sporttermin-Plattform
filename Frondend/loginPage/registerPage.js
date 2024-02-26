@@ -1,4 +1,4 @@
-var loginForm = document.getElementById('form-registration').addEventListener('submit', function(event) {
+var registrationForm = document.getElementById('form-registration').addEventListener('submit', function(event) {
     event.preventDefault();
 
     var username = document.getElementById('registration-username').value;
