@@ -312,22 +312,12 @@ def create_fz_page():
 
 @app.route("/impressum/")
 def impressum_page():
-    user_id = get_user_id_from_session(session)
-    
-    if user_id == "":
-        return {}, 401
-    
     return render_template("legalNotice/legalNotice.html"), 200
 
 
 @app.route("/datenschutz/")
-def datenschutz_page():
-    user_id = get_user_id_from_session(session)
-    
-    if user_id == "":
-        return {}, 401
-    
-    return render_template("legalNotice/legalNotice.html"), 200
+def datenschutz_page():    
+    return render_template("dataProtection/dataProtection.html"), 200
 
 
 @app.route("/home/profile")
@@ -341,7 +331,7 @@ def profile_page():
 
 
 @app.route("/home/requests")
-def request_page():
+def requests_page():
     user_id = get_user_id_from_session(session)
     
     if user_id == "":
