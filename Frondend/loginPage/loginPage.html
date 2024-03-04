@@ -71,23 +71,43 @@
       <div class="modal-body">
           <form method="POST" id="form-registration">
             <div class="form-outline mb-4">
-              <label class="form-label" for="registration-username">Benutzername:</label>
-              <input type="text" id="registration-username" class="form-control form-control-lg" name="registration-username" />
+              <label class="form-label" for="registration-firstname">Vorname:</label>
+              <input type="text" id="registration-firstname" class="form-control form-control-lg" name="registration-firstname" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registration-lastname">Nachname:</label>
+              <input type="text" id="registration-lastname" class="form-control form-control-lg" name="registration-lastname" required/>
             </div>
 
             <div class="form-outline mb-4">
               <label class="form-label" for="registration-email">Email:</label>
-              <input type="email" id="registration-username" class="form-control form-control-lg" name="registration-email"/>
+              <input type="email" id="registration-email" class="form-control form-control-lg" name="registration-email" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registration-gender">Geschlecht:</label>
+              <input type="text" id="registration-gender" class="form-control form-control-lg" name="registration-gender" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registration-age">Alter:</label>
+              <input type="text" id="registration-age" class="form-control form-control-lg" name="registration-age" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registration-city">Stadt:</label>
+              <input type="text" id="registration-city" class="form-control form-control-lg" name="registration-city" required/>
             </div>
 
             <div class="form-outline mb-4">
               <label class="form-label" for="registration-password">Passwort:</label>
-              <input type="password" id="registration-password" class="form-control form-control-lg" name="registration-password"/>
+              <input type="password" id="registration-password" class="form-control form-control-lg" name="registration-password" required/>
             </div>
 
             <div class="form-outline mb-4">
               <label class="form-label" for="repeatpassword">Wiederholen Sie Ihr Passwort:</label>
-              <input type="password" id="repeatpassword" class="form-control form-control-lg" name="repeatpassword"/>
+              <input type="password" id="repeatpassword" class="form-control form-control-lg" name="repeatpassword" required/>
             </div>
 
             <div class="d-flex justify-content-center">
