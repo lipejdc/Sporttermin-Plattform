@@ -24,13 +24,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                firstname: firstName,
-                lastname: lastName,
+                first_name: firstName,
+                last_name: lastName,
                 gender: gender,
                 age: age,
                 city: city,
                 email: registrationEmail,
-                password: password
+                passwd: password
             })
         })
         .then(response => {

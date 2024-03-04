@@ -307,7 +307,7 @@ def create_fz_page():
     if user_id == "":
         return {}, 401
     
-    return render_template("createFz/createFz.html"), 200
+    return render_template("friendzone/friendzone.html"), 200
 
 
 @app.route("/impressum/")
