@@ -79,7 +79,9 @@ def register():
         errors += 1
         msg += "Die E-Mail-Adresse ist nicht valide\r\n"
     else:
-        email_user = service.user_get(email=email)
+        email_user = json.loads(service.user_get(email=email))
+        
+        print(type(email_user))
         
         if type(email_user) != list and email_user != None:
             errors += 1
@@ -98,7 +100,7 @@ def register():
         msg += "Alter hat keinen validen Wert\r\n"
         
     if errors > 0:
-        print("Error registering User: {msg}")
+        print(f"Error registering User: {msg}")
         return {}, 404
     
     # No clear pass on the db!
@@ -124,7 +126,7 @@ def home_page():
         return {}, 401
     
     # send all upcoming appointments to the site, as this is the standard-view/-tab
-    appointments = service.apt_get(user_id=user_id)
+    appointments = json.loads(service.apt_get(user_id=user_id))
     
     if len(appointments) > 1:
         appointments = sorted(appointments, reverse=True, key= lambda apt: apt["date"])
