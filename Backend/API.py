@@ -32,7 +32,7 @@ def login_page():
     return render_template('loginPage/loginPage.html')
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/login/", methods=["POST"])
 def login():
     content = request.json
     
@@ -43,7 +43,6 @@ def login():
         return {}, 404
     
     user = json.loads(service.user_get(email=email, passwd=hash_pw(passwd)))
-    print(user)
 
     if user != None and type(user) != list:
         unencoded_session_id = user["id"] + str(datetime.datetime.now())
@@ -58,7 +57,7 @@ def login():
 
 # Registration will be a Pop-Up on the Login-Page,
 # therefore a GET to render a register-page will not be necessary
-@app.route("/register", methods=["POST"])
+@app.route("/register/", methods=["POST"])
 def register():
     content = request.json
     
@@ -269,7 +268,7 @@ def comment_get(apt_id=""):
     return service.comment_get(user_id, apt_id), 200
 
 
-@app.route("/api/comment", methods=["POST"])
+@app.route("/api/comment/", methods=["POST"])
 def comment_create():
     user_id = get_user_id_from_session(session)
     
@@ -287,6 +286,66 @@ def comment_create():
         return {}, 404
     
     return service.comment_create(user_id=user_id, apt_id=apt_id, timestamp=timestamp, comment_value=comment_value), 200   
+
+
+@app.route("/home/create/event/")
+def create_apt_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("createEvent/createEvent.html"), 200
+
+
+@app.route("/home/create/friendzone/")
+def create_fz_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("createFz/createFz.html"), 200
+
+
+@app.route("/impressum/")
+def create_fz_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("impressum/impressum.html"), 200
+
+
+@app.route("/datenschutz/")
+def create_fz_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("datenschutz/datenschutz.html"), 200
+
+
+@app.route("/home/profile")
+def create_fz_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("profile/profile.html"), 200
+
+
+@app.route("/home/requests")
+def create_fz_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("requests/requests.html"), 200
 
 
 if __name__ == "__main__":
