@@ -290,7 +290,7 @@ def comment_create():
     return service.comment_create(user_id=user_id, apt_id=apt_id, timestamp=timestamp, comment_value=comment_value), 200   
 
 
-@app.route("/home/create/event/")
+@app.route("/home/event/")
 def create_apt_page():
     user_id = get_user_id_from_session(session)
     
@@ -300,7 +300,7 @@ def create_apt_page():
     return render_template("createEvent/createEvent.html"), 200
 
 
-@app.route("/home/create/friendzone/")
+@app.route("/home/friendzone/")
 def create_fz_page():
     user_id = get_user_id_from_session(session)
     
@@ -317,7 +317,7 @@ def impressum_page():
     if user_id == "":
         return {}, 401
     
-    return render_template("impressum/impressum.html"), 200
+    return render_template("legalNotice/legalNotice.html"), 200
 
 
 @app.route("/datenschutz/")
@@ -327,7 +327,7 @@ def datenschutz_page():
     if user_id == "":
         return {}, 401
     
-    return render_template("datenschutz/datenschutz.html"), 200
+    return render_template("legalNotice/legalNotice.html"), 200
 
 
 @app.route("/home/profile")
@@ -337,7 +337,17 @@ def profile_page():
     if user_id == "":
         return {}, 401
     
-    return render_template("profile/profile.html"), 200
+    return render_template("userInfo/userInfo.html"), 200
+
+
+@app.route("/home/requests")
+def request_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("overview/overview.html"), 200
 
 
 if __name__ == "__main__":
