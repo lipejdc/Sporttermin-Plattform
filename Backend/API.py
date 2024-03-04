@@ -309,7 +309,7 @@ def create_fz_page():
 
 
 @app.route("/impressum/")
-def create_fz_page():
+def impressum_page():
     user_id = get_user_id_from_session(session)
     
     if user_id == "":
@@ -319,7 +319,7 @@ def create_fz_page():
 
 
 @app.route("/datenschutz/")
-def create_fz_page():
+def datenschutz_page():
     user_id = get_user_id_from_session(session)
     
     if user_id == "":
@@ -329,23 +329,13 @@ def create_fz_page():
 
 
 @app.route("/home/profile")
-def create_fz_page():
+def profile_page():
     user_id = get_user_id_from_session(session)
     
     if user_id == "":
         return {}, 401
     
     return render_template("profile/profile.html"), 200
-
-
-@app.route("/home/requests")
-def create_fz_page():
-    user_id = get_user_id_from_session(session)
-    
-    if user_id == "":
-        return {}, 401
-    
-    return render_template("requests/requests.html"), 200
 
 
 if __name__ == "__main__":
