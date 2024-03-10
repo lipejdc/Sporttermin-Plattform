@@ -55,27 +55,27 @@
                 <form method="POST" id="form-createevent">
                     <div class="mb-3">
                         <label for="eventname" class="form-label">Eventname</label> 
-                        <input type="text" class="form-control" id="eventname" placeholder="Name" name="eventname">
+                        <input type="text" class="form-control" id="eventname" placeholder="Name" name="eventname" required>
                     </div>
                     <div class="mb-3">
                       <label for="street" class="form-label" place>Straße</label>
-                      <input type="text" class="form-control" id="street" placeholder="Straße" name="street">
+                      <input type="text" class="form-control" id="street" placeholder="Straße" name="street" required>
                     </div>
                     <div class="mb-3">
                         <label for="streetnumber" class="form-label">Hausnummer</label>
-                        <input type="text" class="form-control" id="streetnumber" placeholder="Nr." name="streetnumber">
+                        <input type="text" class="form-control" id="streetnumber" placeholder="Nr." name="streetnumber" required>
                       </div>
                     <div class="mb-3">
                         <label for="postalcode" class="form-label">PLZ</label> 
-                        <input type="text" class="form-control" id="postalcode" placeholder="PLZ" name="postalcode">
+                        <input type="text" class="form-control" id="postalcode" placeholder="PLZ" name="postalcode" required>
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">Datum</label> 
-                        <input type="text" class="form-control" id="date" placeholder="Datum" name="date">
+                        <input type="text" class="form-control" id="date" placeholder="Datum" name="date" required>
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Ort</label>
-                        <input type="location" class="form-control" id="location" placeholder="Ort" name="location">
+                        <input type="location" class="form-control" id="location" placeholder="Ort" name="location" required>
                       </div>
                     <div class="mb-3">
                     <label for="description">Beschreibung</label>
@@ -86,7 +86,7 @@
             <div class="col-md-4 offset-md-1">
                     <div class="mb-3">
                             <label for="group" class="form-label">Gruppe</label>
-                            <select class="form-select" id="group" name="group">
+                            <select class="form-select" id="group" name="group" required>
                                 <option disabled selected value="">Bitte wählen</option>
                               <option>Gruppe 1</option>
                               <option>Gruppe 2</option>
@@ -97,15 +97,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="participants" class="form-label">Teilnehmeranzahl</label> 
-                            <input type="text" class="form-control" id="participants" placeholder="Zahl" name="participants">
+                            <input type="text" class="form-control" id="participants" placeholder="Zahl" name="participants" required>
                         </div>
                     <div class="mb-3">
                         <label for="startingtime" class="form-label">Startzeit</label> 
-                        <input type="text" class="form-control" id="startingtime" placeholder="mm:hh" name="startingtime">
+                        <input type="text" class="form-control" id="startingtime" placeholder="mm:hh" name="startingtime" required>
                     </div>
                       <div class="mb-3">
                         <label for="endtime" class="form-label">Endzeit</label>
-                        <input type="endtime" class="form-control" id="endtime" placeholder="mm:hh" name="endtime">
+                        <input type="endtime" class="form-control" id="endtime" placeholder="mm:hh" name="endtime" required>
                       </div>
 
                     

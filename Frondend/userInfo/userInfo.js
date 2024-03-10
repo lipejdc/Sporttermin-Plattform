@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Create a data object to send to the server
         const userData = {
-            firstName: updatedFirstname,
-            lastName: updatedLastName,
+            first_name: updatedFirstname,
+            last_name: updatedLastName,
             email: updatedEmail,
             gender: updatedGender,
             age: updatedAge,
