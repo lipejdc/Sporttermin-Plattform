@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const location = document.getElementById('location').value;
         const description = document.getElementById('description').value;
         const group = document.getElementById('group').value;
-        const participants = document.getElementById('participants').value;
+        const numberOfParticipants = document.getElementById('participants').value;
         const startingTime = document.getElementById('startingtime').value;
         const endTime = document.getElementById('endtime').value;
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             location: location,
             description: description,
             group: group,
-            users: participants,
+            max_user: numberOfParticipants,
             time_start: startingTime,
             time_end: endTime
         };
