@@ -36,7 +36,7 @@ def user_get(id: str = "", email: str = "", passwd:str = "") -> set:
         return ("[]")
 
 
-def user_update(id: str, first_name: str, last_name: str, email: str, passwd: str, gender: int, age: int, city: str):
+def user_update(id: str, first_name: str, last_name: str, email: str, passwd: str, age: int, city: str):
     with ORM.get_session() as session:
         user = session.scalars(select(User).where(User.id == id)).first()
         
@@ -45,7 +45,6 @@ def user_update(id: str, first_name: str, last_name: str, email: str, passwd: st
             user.last_name = last_name
             user.email = email
             user.passwd = passwd
-            user.gender = gender
             user.age = age
             user.city = city
             
@@ -56,7 +55,7 @@ def user_update(id: str, first_name: str, last_name: str, email: str, passwd: st
     return ("{}")
 
 
-def user_create(first_name: str, last_name: str, email: str, passwd: str, gender: int, age: int, city: str):
+def user_create(first_name: str, last_name: str, email: str, passwd: str, age: int, city: str):
     with ORM.get_session() as session:
         user = User()
         
@@ -65,7 +64,6 @@ def user_create(first_name: str, last_name: str, email: str, passwd: str, gender
             user.last_name = last_name
             user.email = email
             user.passwd = passwd
-            user.gender = gender
             user.age = age
             user.city = city
             

@@ -45,7 +45,7 @@ def login():
     user = json.loads(service.user_get(email=email, passwd=hash_pw(passwd)))
 
     if user != None and type(user) != list:
-        unencoded_session_id = user["id"] + str(datetime.datetime.now())
+        unencoded_session_id = str(user["id"]) + str(datetime.datetime.now())
         session_id = hashlib.sha256(unencoded_session_id.encode("utf-8")).hexdigest()
         session["session_id"] = session_id
         active_users[session_id] = user["id"]
@@ -66,7 +66,6 @@ def register():
         last_name = content["last_name"]
         email = content["email"]
         passwd = content["passwd"]
-        gender = content["gender"]
         age = content["age"]
         city = content["city"]
     except:
@@ -88,12 +87,6 @@ def register():
             msg += "Email schon vergeben\r\n"
         
     try:
-        gender = int(gender)
-    except:
-        errors += 1
-        msg += "Gender hat keinen validen Wert\r\n"
-        
-    try:
         age = int(age)
     except:
         errors += 1
@@ -106,9 +99,9 @@ def register():
     # No clear pass on the db!
     passwd = hash_pw(passwd)
     
-    user = json.loads(service.user_create(first_name, last_name, email, passwd, gender, age, city))
+    user = json.loads(service.user_create(first_name, last_name, email, passwd, age, city))
     if user != None:
-        unencoded_session_id = user["id"] + str(datetime.datetime.now())
+        unencoded_session_id = str(user["id"]) + str(datetime.datetime.now())
         session_id = hashlib.sha256(unencoded_session_id.encode("utf-8")).hexdigest()
         session["session_id"] = session_id
         active_users[session_id] = user["id"]
@@ -131,7 +124,7 @@ def home_page():
     if len(appointments) > 1:
         appointments = sorted(appointments, reverse=True, key= lambda apt: apt["date"])
     
-    return render_template("upcoming/upcoming.html", data={"appointments": appointments}), 200
+    return render_template("upcomingsEvents/upcomingsEvents.html", data={"appointments": appointments}), 200
 
 
 # Settings will be a Pop-Up/Slide-In on the homepage
@@ -156,7 +149,6 @@ def change_profile():
         last_name = content["last_name"]
         email = content["email"]
         passwd = content["passwd"]
-        gender = content["gender"]
         age = content["age"]
         city = content["city"]
     except:
@@ -169,13 +161,7 @@ def change_profile():
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             errors += 1
             msg += "Die E-Mail-Adresse ist nicht valide\r\n"
-            
-        try:
-            gender = int(gender)
-        except:
-            errors += 1
-            msg += "Gender hat keinen validen Wert\r\n"
-            
+
         try:
             age = int(age)
         except:
@@ -189,7 +175,7 @@ def change_profile():
         return {}, 404
     
     # changing email or password is currently not allowed
-    service.user_update(user_id, first_name, last_name, user_info["email"], user_info["passwd"], gender, age, city)
+    service.user_update(user_id, first_name, last_name, user_info["email"], user_info["passwd"], age, city)
     
     return {}, 200
 
@@ -290,7 +276,7 @@ def comment_create():
     return service.comment_create(user_id=user_id, apt_id=apt_id, timestamp=timestamp, comment_value=comment_value), 200   
 
 
-@app.route("/home/event/")
+@app.route("/home/create/event/")
 def create_apt_page():
     user_id = get_user_id_from_session(session)
     
@@ -320,7 +306,7 @@ def datenschutz_page():
     return render_template("dataProtection/dataProtection.html"), 200
 
 
-@app.route("/home/profile")
+@app.route("/home/profile/")
 def profile_page():
     user_id = get_user_id_from_session(session)
     
@@ -330,7 +316,7 @@ def profile_page():
     return render_template("userInfo/userInfo.html"), 200
 
 
-@app.route("/home/requests")
+@app.route("/home/requests/")
 def requests_page():
     user_id = get_user_id_from_session(session)
     
@@ -338,6 +324,15 @@ def requests_page():
         return {}, 401
     
     return render_template("overview/overview.html"), 200
+
+@app.route("/home/upcomingEvents/")
+def upcoming_page():
+    user_id = get_user_id_from_session(session)
+    
+    if user_id == "":
+        return {}, 401
+    
+    return render_template("upcomingEvents/upcomingEvents.html"), 200
 
 
 if __name__ == "__main__":

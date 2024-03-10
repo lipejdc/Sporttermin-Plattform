@@ -1,11 +1,9 @@
 from sqlalchemy import (
     Column, String, Integer, DateTime, ForeignKey, Boolean, Table, create_engine
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_utils import database_exists, create_database
-import uuid
 
 Base = declarative_base()
 
@@ -14,15 +12,15 @@ gEngine = None
 # Association tables
 user_appointment = Table(
     'user_appointment', Base.metadata,
-    Column('user_id', UUID(as_uuid=True), ForeignKey('user.id')),
-    Column('appointment_id', UUID(as_uuid=True), ForeignKey('appointment.id')),
+    Column('user_id', Integer, ForeignKey('user.id')),
+    Column('appointment_id', Integer, ForeignKey('appointment.id')),
     Column('status', Boolean)
 )
 
 user_friendzone = Table(
     'user_friendzone', Base.metadata,
-    Column('user_id', UUID(as_uuid=True), ForeignKey('user.id')),
-    Column('friendzone_id', UUID(as_uuid=True), ForeignKey('friendzone.id')),
+    Column('user_id', Integer, ForeignKey('user.id')),
+    Column('friendzone_id', Integer, ForeignKey('friendzone.id')),
     Column('status', Boolean)
 )
 
@@ -31,12 +29,11 @@ user_friendzone = Table(
 
 class User(Base):
     __tablename__ = 'user'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(50))
     last_name = Column(String(50), nullable=False)
     email = Column(String(50), unique=True)
     passwd = Column(String(256))  # Für gehashte Passwörter
-    gender = Column(Integer)
     age = Column(Integer, nullable=False)
     city = Column(String(100))
 
@@ -48,11 +45,10 @@ class User(Base):
 
     def to_dict(self):
         return {
-            "id": str(self.id),  # UUID in String konvertieren
+            "id": self.id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            "gender": self.gender,
             "age": self.age,
             "city": self.city,
         }
@@ -60,9 +56,10 @@ class User(Base):
 
 class Appointment(Base):
     __tablename__ = 'appointment'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    creator_id = Column(UUID(as_uuid=True),
-                        ForeignKey('user.id'), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
+    # Fremdschlüssel zur Friendzone
+    friendzone_id = Column(Integer, ForeignKey('friendzone.id'))
     name = Column(String(200), nullable=False)
     date = Column(DateTime)
     time_start = Column(DateTime)
@@ -72,15 +69,18 @@ class Appointment(Base):
     max_user = Column(Integer)
     notice = Column(String(500))
 
-    users = relationship('User', secondary=user_appointment, back_populates='appointments')
+    users = relationship('User', secondary=user_appointment,
+                         back_populates='appointments')
     comments = relationship('Comment', back_populates='appointment')
+    # Beziehung zur Friendzone
+    friendzone = relationship('Friendzone', back_populates='appointments')
 
 
 class Comment(Base):
     __tablename__ = 'comment'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    appointment_id = Column(UUID(as_uuid=True), ForeignKey('appointment.id'))
-    user_id = Column(UUID(as_uuid=True), ForeignKey('user.id'))
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    appointment_id = Column(Integer, ForeignKey('appointment.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
     timestamp = Column(DateTime)  # Geändert zu DateTime
     comment_value = Column(String(250))
 
@@ -90,12 +90,33 @@ class Comment(Base):
 
 class Friendzone(Base):
     __tablename__ = 'friendzone'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(200))
-    creator_id = Column(UUID(as_uuid=True),
-                        ForeignKey('user.id'), nullable=False)
+    creator_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
-    users = relationship('User', secondary=user_friendzone, back_populates='friendzones')
+    users = relationship('User', secondary=user_friendzone,
+                         back_populates='friendzones')
+    # Beziehung zu Appointments
+    appointments = relationship('Appointment', back_populates='friendzone')
+
+
+class FriendzoneInvitation(Base):
+    __tablename__ = 'friendzone_invitation'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    friendzone_id = Column(Integer, ForeignKey(
+        'friendzone.id'), nullable=False)
+    # Die E-Mail des eingeladenen Benutzers
+    user_email = Column(String(50), nullable=False)
+    # Einzigartiger Token für die Einladung
+    token = Column(String(256), unique=True, nullable=False)
+    # Ob die Einladung angenommen wurde
+    accepted = Column(Boolean, default=False)
+
+    friendzone = relationship('Friendzone', back_populates='invitations')
+
+
+Friendzone.invitations = relationship(
+    'FriendzoneInvitation', back_populates='friendzone')
 
 
 def create_db_if_not_exists():
@@ -114,7 +135,7 @@ def create_db_if_not_exists():
         print("Tabellen wurden erstellt.")
     else:
         print("DB exists")
-        
+
     global gEngine
     gEngine = engine
 
@@ -126,7 +147,7 @@ def get_session():
     else:
         connection_string = "sqlite:///test.sqlite"
         engine = create_engine(connection_string, echo=True)
-        
+
         gEngine = engine
-        
+
         return Session(gEngine)
