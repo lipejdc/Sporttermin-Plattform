@@ -6,12 +6,11 @@ import re  # Regular expressions module for pattern matching.
 import os  # Provides a way of using operating system dependent functionality.
 from flask import Flask, request, jsonify, session, render_template, redirect
 
-template_dir = os.path.abspath("../Frondend")
-print(template_dir)
-
-# Setup Flask app and configure its template and static file directories.
+template_dir = os.path.abspath("../Frondend/templates")
+static_dir = os.path.abspath("../Frondend/static")
+ 
 app = Flask(__name__, template_folder=template_dir,
-            static_folder=template_dir, static_url_path="/static/")
+            static_folder=static_dir, static_url_path="/static/")
 # Secret key for sessions, should be changed to a secure random value.
 app.secret_key = "OSP_SECRET_KEY::TODO:CHANGE!"
 
@@ -39,7 +38,7 @@ def hash_pw(unhashed_pw: str) -> str:
 
 @app.route("/", methods=["GET"])
 def login_page():
-    return render_template('loginPage/loginPage.html')
+    return render_template('loginPage.html')
 
 # Route to handle login attempts.
 
@@ -142,7 +141,7 @@ def home_page():
         appointments = sorted(appointments, reverse=True,
                               key=lambda apt: apt["date"])
 
-    return render_template("upcomingsEvents/upcomingsEvents.html", data={"appointments": appointments}), 200
+    return render_template("upcomingsEvents.html", data={"appointments": appointments}), 200
 
 
 # Settings will be a Pop-Up/Slide-In on the homepage
@@ -311,7 +310,7 @@ def create_apt_page():
     if user_id == "":
         return {}, 401
 
-    return render_template("createEvent/createEvent.html"), 200
+    return render_template("createEvent.html"), 200
 
 
 @app.route("/home/friendzone/")
@@ -321,17 +320,17 @@ def create_fz_page():
     if user_id == "":
         return {}, 401
 
-    return render_template("friendzone/friendzone.html"), 200
+    return render_template("friendzone.html"), 200
 
 
 @app.route("/impressum/")
 def impressum_page():
-    return render_template("legalNotice/legalNotice.html"), 200
+    return render_template("legalNotice.html"), 200
 
 
 @app.route("/datenschutz/")
 def datenschutz_page():
-    return render_template("dataProtection/dataProtection.html"), 200
+    return render_template("dataProtection.html"), 200
 
 
 @app.route("/home/profile/")
@@ -341,7 +340,7 @@ def profile_page():
     if user_id == "":
         return {}, 401
 
-    return render_template("userInfo/userInfo.html"), 200
+    return render_template("userInfo.html"), 200
 
 
 @app.route("/home/requests/")
@@ -351,7 +350,7 @@ def requests_page():
     if user_id == "":
         return {}, 401
 
-    return render_template("overview/overview.html"), 200
+    return render_template("overview.html"), 200
 
 
 @app.route("/home/upcomingEvents/")
@@ -361,7 +360,7 @@ def upcoming_page():
     if user_id == "":
         return {}, 401
 
-    return render_template("upcomingEvents/upcomingEvents.html"), 200
+    return render_template("upcomingEvents.html"), 200
 
 # A POST route for inviting users to friendzones.
 
