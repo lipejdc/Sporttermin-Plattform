@@ -61,6 +61,9 @@ class Appointment(Base):
     # Fremdschlüssel zur Friendzone
     friendzone_id = Column(Integer, ForeignKey('friendzone.id'))
     name = Column(String(200), nullable=False)
+    street = Column(String(200), nullable=False)
+    street_number = Column(Integer)
+    location = Column(String(200, nullable=False))
     date = Column(DateTime)
     time_start = Column(DateTime)
     time_end = Column(DateTime)
