@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
         var firstName = document.getElementById('registration-firstname').value;
         var lastName = document.getElementById('registration-lastname').value;
-        var gender = document.getElementById('registration-gender').value;
         var age = document.getElementById('registration-age').value;
         var city = document.getElementById('registration-city').value;
         var registrationEmail = document.getElementById('registration-email').value;
@@ -24,13 +23,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                firstname: firstName,
-                lastname: lastName,
-                gender: gender,
+                first_name: firstName,
+                last_name: lastName,
                 age: age,
                 city: city,
                 email: registrationEmail,
-                password: password
+                passwd: password
             })
         })
         .then(response => {
