@@ -1,0 +1,35 @@
+/* footer */
+footer {
+    background-color: #0d6efd;
+    color: white;
+    text-align: right;
+    padding: 1rem;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+}
+ 
+footer a {
+    text-decoration: none;
+    margin-right: 20px;
+    color: white;
+}
+
+.main-content {
+    margin-top: 50px;
+}
+
+.text-center {
+    margin-top: 50px;
+}
+
+.headlinesNav {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+    display: inline-block;
+    margin-right: 2%;
+    margin-bottom: 20px;
+}
+

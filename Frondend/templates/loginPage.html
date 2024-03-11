@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="loginPage.css">
+    <link rel="stylesheet" href="/static/css/loginPage.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/loginPage.js"></script>
+    <script src="/static/js/registerPage.js"></script>
  
     <title>Login Page</title>
 </head>
@@ -18,18 +20,18 @@
                 class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <form class="form-login" id="form-login">
+              <form class="form-login" id="form-login" method="POST">
                 <!-- Email input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="email">E-Mail-Adresse</label>
-                  <input type="email" id="email" class="form-control form-control-lg"
+                  <input type="email" id="email" class="form-control form-control-lg" name="email"
                     placeholder="Geben Sie eine gültige E-Mail Adresse ein" />
                 </div>
       
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                     <label class="form-label" for="password">Passwort</label>
-                  <input type="password" id="password" class="form-control form-control-lg"
+                  <input type="password" id="password" class="form-control form-control-lg" name="password"
                     placeholder="Passwort" />
                 </div>
       
@@ -56,11 +58,6 @@
           </div>
         </div>
       </section>
-      <!-- <footer class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-        <div class="text-white mb-3 mb-md-0">
-            Copyright © 2024. Alle Rechte vorbehalten.
-        </div>
-    </footer> -->
 
 
 <!-- Modal -->
@@ -72,40 +69,48 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <form>
+          <form method="POST" id="form-registration">
             <div class="form-outline mb-4">
-              <label class="form-label" for="form3Example1cg">Benutzername:</label>
-              <input type="text" id="form3Example1cg" class="form-control form-control-lg" />
+              <label class="form-label" for="registration-firstname">Vorname:</label>
+              <input type="text" id="registration-firstname" class="form-control form-control-lg" name="registration-firstname" required/>
             </div>
 
             <div class="form-outline mb-4">
-              <label class="form-label" for="form3Example3cg">Email:</label>
-              <input type="email" id="form3Example3cg" class="form-control form-control-lg" />
+              <label class="form-label" for="registration-lastname">Nachname:</label>
+              <input type="text" id="registration-lastname" class="form-control form-control-lg" name="registration-lastname" required/>
             </div>
 
             <div class="form-outline mb-4">
-              <label class="form-label" for="form3Example4cg">Passwort:</label>
-              <input type="password" id="form3Example4cg" class="form-control form-control-lg" />
+              <label class="form-label" for="registration-email">Email:</label>
+              <input type="email" id="registration-email" class="form-control form-control-lg" name="registration-email" required/>
             </div>
 
             <div class="form-outline mb-4">
-              <label class="form-label" for="form3Example4cdg">Wiederholen Sie Ihr Passwort:</label>
-              <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
+              <label class="form-label" for="registration-age">Alter:</label>
+              <input type="text" id="registration-age" class="form-control form-control-lg" name="registration-age" required/>
             </div>
 
-            <!-- <div class="form-check d-flex justify-content-center mb-5">
-              <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3cg" />
-              <label class="form-check-label" for="form2Example3g">
-                I agree all statements in <a href="#!" class="text-body"><u>Terms of service</u></a>
-              </label>
-            </div> -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registration-city">Stadt:</label>
+              <input type="text" id="registration-city" class="form-control form-control-lg" name="registration-city" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registration-password">Passwort:</label>
+              <input type="password" id="registration-password" class="form-control form-control-lg" name="registration-password" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <label class="form-label" for="repeatpassword">Wiederholen Sie Ihr Passwort:</label>
+              <input type="password" id="repeatpassword" class="form-control form-control-lg" name="repeatpassword" required/>
+            </div>
 
             <div class="d-flex justify-content-center">
-              <button type="button"
+              <button type="submit"
                 class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Registrieren</button>
             </div>
 
-            <p class="text-center text-muted mt-5 mb-0">Haben Sie bereits ein Konto? <a href="#!"
+            <p class="text-center text-muted mt-5 mb-0">Haben Sie bereits ein Konto? <a href="./loginPage.html"
                 class="fw-bold text-body"><u>Anmelden</u></a></p>
 
           </form>
