@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const firstName = document.getElementById('firstName').textContent;
         const lastName = document.getElementById('lastName').textContent;
         const email = document.getElementById('email').textContent;
-        const gender = document.getElementById('gender').textContent;
         const age = document.getElementById('age').textContent; 
         const city = document.getElementById('city').textContent; 
 
@@ -19,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('editFirstName').value = firstName;
         document.getElementById('editLastName').value = lastName;
         document.getElementById('editEmail').value = email;
-        document.getElementById('editGender').value = gender; // Assuming there's an input field with id 'editGender'
         document.getElementById('editAge').value = age; // Assuming there's an input field with id 'editAge'
         document.getElementById('editCity').value = city; // Assuming there's an input field with id 'editCity'
 
@@ -35,16 +33,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const updatedFirstname = document.getElementById('editFirstName').value;
         const updatedLastName = document.getElementById('editLastName').value;
         const updatedEmail = document.getElementById('editEmail').value;
-        const updatedGender = document.getElementById('editGender').value;
         const updatedAge = document.getElementById('editAge').value;
         const updatedCity = document.getElementById('editCity').value;
 
         // Create a data object to send to the server
         const userData = {
-            firstName: updatedFirstname,
-            lastName: updatedLastName,
+            first_name: updatedFirstname,
+            last_name: updatedLastName,
             email: updatedEmail,
-            gender: updatedGender,
             age: updatedAge,
             city: updatedCity
         };
@@ -63,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('userName').textContent = updatedUsername;
                 document.getElementById('fullName').textContent = updatedFullName;
                 document.getElementById('email').textContent = updatedEmail;
-                document.getElementById('gender').textContent = updatedGender;
                 document.getElementById('age').textContent = updatedAge;
                 document.getElementById('city').textContent = updatedCity;
 
