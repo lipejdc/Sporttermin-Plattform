@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const streetNumber = document.getElementById('streetnumber').value;
         const postalCode = document.getElementById('postalcode').value;
         const date = document.getElementById('date').value;
-        const location = document.getElementById('location').value;
+        const city = document.getElementById('city').value;
         const description = document.getElementById('description').value;
         const group = document.getElementById('group').value;
         const numberOfParticipants = document.getElementById('participants').value;
@@ -19,20 +19,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = {
             name: eventName,
             street: street,
-            street_number: streetNumber,
+            housenr: streetNumber,
             citycode: postalCode,
             date: date,
-            location: location,
+            city: city,
             notice: description,
-            friendzone: group,
-            max_user: numberOfParticipants,
+            friendzone_id: 1,
+            maxUser: numberOfParticipants,
             time_start: startingTime,
-            time_end: endTime
+            time_stop: endTime
         };
 
         fetch('/api/appointment', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
         })
         .then(response => {
             if (response.ok) {
