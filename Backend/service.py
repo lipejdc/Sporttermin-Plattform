@@ -128,12 +128,11 @@ def fz_get(user_id: str, fz_id: str = "") -> str:
                     fzs_list = []
  
                     for fz in fzs:
-                        fzs_list.append(fz)
+                        fzs_list.append(fz.to_dict())  # Convert Friendzone object to dictionary
  
                     return json.dumps(fzs_list)
  
-        return ("[]")
- 
+        return "[]"
 # Function to create a new friendzone and associate it with a user.
  
  

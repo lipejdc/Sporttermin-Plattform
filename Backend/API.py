@@ -143,6 +143,12 @@ def home_page():
 
     return render_template("upcomingsEvents.html", data={"appointments": appointments}), 200
 
+# Route to serve the home page, showing upcoming appointments.
+@app.route("/api/get_all_users", methods=["GET"])
+def get_all_users():
+    users = service.user_get() # Funktion zum Abrufen aller Benutzerdaten aus der Datenbank aufrufen
+    return jsonify(users)
+
 
 # Settings will be a Pop-Up/Slide-In on the homepage
 # therefore a GET to render a settings-page will not be necessary
