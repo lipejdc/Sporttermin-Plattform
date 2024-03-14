@@ -1,3 +1,16 @@
+window.addEventListener('load', (event) => {
+    // Check if already accepted before, hide banner
+    if (localStorage.getItem('gdpr-accept')==='ok'){
+        document.getElementById("gdpr-thing").style.display='none';
+    }
+
+  // If accept, hide banner and remeber choice
+  document.getElementById("consent-button").onclick = function() {
+    document.getElementById("gdpr-thing").style.display='none';
+    localStorage.setItem('gdpr-accept', 'ok');
+  };
+});
+
 function applyFilters() {
     var searchInput = document.getElementById("searchInput").value.toLowerCase();
     var eventContainers = document.querySelectorAll(".col-lg-3");
