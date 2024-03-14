@@ -87,7 +87,6 @@ class Comment(Base):
     user = relationship('User', back_populates='comments')
     appointment = relationship('Appointment', back_populates='comments')
 
-
 class Friendzone(Base):
     __tablename__ = 'friendzone'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -98,6 +97,13 @@ class Friendzone(Base):
                          back_populates='friendzones')
     appointments = relationship('Appointment', back_populates='friendzone')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'creator_id': self.creator_id,
+            # Include other attributes if needed
+        }
 
 class FriendzoneInvitation(Base):
     __tablename__ = 'friendzone_invitation'
