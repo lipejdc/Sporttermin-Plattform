@@ -49,53 +49,63 @@
             </div>
         </div>
     </nav>
-    <h1>Freundschaftsgruppen</h1>
+    <h1 class="text-center">Freundschaftsgruppen</h1>
 
-    <ul id="gruppenListe">
-        <!-- Weitere Gruppen hier einfügen -->
-    </ul>
-    <!-- Formular für ein neues Mitglied -->
-    <div id="neuesMitgliedForm" style="display: none;">
-        <div class="container mt-3">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Neues Mitglied hinzufügen</div>
-
-                        <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="neuesMitgliedName" class="form-label">Email des neuen Mitglieds</label>
-                                    <input type="text" class="form-control" id="neuesMitgliedName" autocomplete="off"
-                                        list="vorschlaege">
-                                    <datalist id="vorschlaege">
-                                    </datalist>
-                                </div>
-                                <button type="button" class="btn btn-primary"
-                                    onclick="fuegeNeuesMitgliedHinzu()">Hinzufügen</button>
-                            </form>
+    <div class="container mt-100 pt-5" id ="groupElements">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="card mb-30">
+                    <a class="card-img-tiles" href="#" data-abc="true">
+                        <div class="inner">
+                            <div class="main-img"><img src="https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_1280.jpg" alt="Category"></div>
                         </div>
+                    </a>
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Beste Freunde</h4>
+                        <a class="btn btn-outline-primary btn-sm anschauen" href="#" data-abc="true">anschauen</a>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card mb-30">
+                    <a class="card-img-tiles" href="#" data-abc="true">
+                        <div class="inner">
+                            <div class="main-img"><img src="https://cdn.pixabay.com/photo/2016/11/23/18/17/men-1854191_1280.jpg" alt="Category"></div>
+                        </div>
+                    </a>
+                    <div class="card-body text-center">
+                        <h4 class="card-title">die Besten</h4>
+                        <a class="btn btn-outline-primary btn-sm anschauen-btn" href="#" data-abc="true">anschauen</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card mb-30">
+                    <a class="card-img-tiles" href="#" data-abc="true">
+                        <div class="inner">
+                            <div class="main-img"><img src="https://cdn.pixabay.com/photo/2022/06/02/15/01/music-7238254_1280.jpg" alt="Category"></div>
+                        </div>
+                    </a>
+                    <div class="card-body text-center">
+                        <h4 class="card-title">coole Gruppe</h4>
+                        <a class="btn btn-outline-primary btn-sm anschauen-btn" href="#" data-abc="true">anschauen</a>                    </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Popup-Fenster für Mitglieder -->
-    <div id="popup" class="popup z-2 position-absolute">
-        <h2 id="gruppenName"></h2>
-
+    <div id="popup" class="popup z-2 position-absolute" style="display: none;">
+        <h2 id="gruppenName" class="text-center">Beste Freunde</h2>
         <div class="container mt-3 mb-4">
             <div class="col-lg-12 mt-4 mt-lg-0">
                 <div class="row">
-                    <div class="col-md-12">       
-                         <!-- Button für ein neues Mitglied -->
-                                <button class="btn btn-outline-primary float-right" onclick="zeigeNeuesMitgliedForm()">Neues
-                                    Mitglied</button>
-                            </div> 
-                        <div class="text-center mt-3">
+                    <div class="col-md-12">
+                        <!-- Button für ein neues Mitglied -->
+                        <button class="btn btn-outline-primary float-right" onclick="zeigeNeuesMitgliedForm()">Neues Mitglied</button>
+                    </div>
+                    <div class="text-center mt-3">
                         <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
-                          
                             <table class="table manage-candidates-top mb-0">
                                 <thead>
                                     <tr>
@@ -107,29 +117,57 @@
                                     <!-- Hier werden die Mitglieder dynamisch hinzugefügt -->
                                 </tbody>
                             </table>
-                            <!-- <div class="text-center mt-3 mt-sm-3">
-                                <ul class="pagination justify-content-center mb-0">
-                                    <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
-                                    <li class="page-item active" aria-current="page"><span class="page-link">1 </span>
-                                        <span class="sr-only">(current)</span>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">25</a></li>
-                                    <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
-                                </ul>
-                            </div> -->
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <div id="neuesMitgliedForm"  style="display: none;">
+        <div class="container mt-3">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Neues Mitglied hinzufügen</div>
+    
+                        <div class="card-body">
+                            <form id="inviteForm">
+                                <div class="mb-3">
+                                    <label for="neuesMitgliedName" class="form-label">Email des neuen Mitglieds</label>
+                                    <input type="text" class="form-control" id="neuesMitgliedName" autocomplete="off"
+                                        list="vorschlaege" onclick="ladeVorschlaege()">
+                                    <datalist id="vorschlaege">
+                                    </datalist>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="fuegeNeuesMitgliedHinzu()">Hinzufügen</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    
     <!-- Overlay für Popup -->
-    <div id="overlay" class="overlay z-3 position-absolute"></div>
+    <div id="overlay" class="overlay z-3 position-absolute" style="display: none;"></div>
+    
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-5 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                <svg class="bi" width="30" height="24">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 OHMegaIT</span>
+        </div>
+    
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-body-secondary" href="/impressum/">Impressum</a></li>
+            <li class="ms-3"><a class="text-body-secondary"
+                    href="/datenschutz/">Datenschutzrichtlinien</a></li>
+        </ul>
+    </footer>
 </body>
 
 </html>

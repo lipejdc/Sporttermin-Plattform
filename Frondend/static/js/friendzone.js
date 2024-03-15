@@ -7,30 +7,48 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Event-Listener für den Button "anschauen" hinzufügen
+    var anschauenButtons = document.querySelectorAll('.anschauen');
+    anschauenButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            zeigeMitglieder();
+        });
+    });
+});
+
 // Funktion zum Abrufen aller Freundeszonen
-       // Annahme: Der folgende Code wird in einem Webbrowser oder einer ähnlichen Umgebung ausgeführt
+// Annahme: Der folgende Code wird in einem Webbrowser oder einer ähnlichen Umgebung ausgeführt
 
-        // Ersetze 'ID_HIER_EINFÜGEN' durch die tatsächliche ID, die du abrufen möchtest
-        const fzId = 1;
+// Ersetze 'ID_HIER_EINFÜGEN' durch die tatsächliche ID, die du abrufen möchtest
+const fzId = 1;
 
-        // Erstellen der URL für die GET-Anfrage
-        const url = `/api/friendzone/${fzId}`;
+// Erstellen der URL für die GET-Anfrage
+const url = `/api/friendzone/${fzId}`;
 
-        // Ausführen einer GET-Anfrage an die API
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Ausgabe aller Friendzonen in der Konsole
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
+// Ausführen einer GET-Anfrage an die API
+fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Ausgabe aller Friendzonen in der Konsole
+        console.log(data);
+        // Anzahl der Elemente dynamisch setzen
+        const numElements = data.length;
+        // Schleife über alle Elemente
+        for (let i = 0; i < numElements; i++) {
+            const element = data[i];
+            // Den Wert "data" in die "card-title" setzen
+            document.getElementsByClassName('card-title')[i].innerText = element.data;
+        }
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 
 
 
@@ -105,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         td1.className = 'title';
                         td2.className = 'action text-right';
-                        deleteButton.className = 'btn btn-danger';
+                        deleteButton.className = 'btn btn-danger mt-4';
 
                         td1.innerHTML = `
                                                 <div class="thumb">
@@ -153,90 +171,115 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('popup').style.display = 'none';
             document.getElementById('neuesMitgliedForm').style.display = 'block';
             document.getElementById('overlay').style.display = 'none';
+            document.getElementById('groupElements').style.display = 'none';
 
         }
 
         // Funktion, um ein neues Mitglied hinzuzufügen
         function fuegeNeuesMitgliedHinzu() {
-            document.getElementById('popup').style.display = 'none';
-            var neuesMitgliedName = document.getElementById('neuesMitgliedName').value;
-            var mitgliederListe = document.getElementById('mitgliederListe');
-            var listItem = document.createElement('tr');
-            var td1 = document.createElement('td');
-            var td2 = document.createElement('td');
-            var deleteButton = document.createElement('button');
+                var user_email = document.getElementById("neuesMitgliedName").value;
+                var data = {
+                    friendzone_id: 2,
+                    user_email: user_email
+                };
+            
+                fetch('/api/invite_fz/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                alert("Email erfolgreich abgesendet!")
+            
+                document.getElementById('neuesMitgliedForm').style.display = 'none';
+                document.getElementById('groupElements').style.display = 'block';
 
-            td1.className = 'title';
-            td2.className = 'action text-right';
-            deleteButton.className = 'btn btn-danger';
+        //     document.getElementById('popup').style.display = 'none';
+        //     var neuesMitgliedName = document.getElementById('neuesMitgliedName').value;
+        //     var mitgliederListe = document.getElementById('mitgliederListe');
+        //     var listItem = document.createElement('tr');
+        //     var td1 = document.createElement('td');
+        //     var td2 = document.createElement('td');
+        //     var deleteButton = document.createElement('button');
 
-            td1.innerHTML = `
-            <div class="thumb">
-                <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-            </div>
-            <div class="candidate-list-details">
-                <div class="candidate-list-info">
-                    <div class="candidate-list-title">
-                        <h5 class="mb-0"><a href="#">${neuesMitgliedName}</a></h5>
-                    </div>
-                </div>
-            </div>
-        `;
-            deleteButton.innerHTML = '<i class="far fa-trash-alt"></i>';
-            deleteButton.onclick = function () {
-                listItem.remove();
-            };
+        //     td1.className = 'title';
+        //     td2.className = 'action text-right';
+        //     deleteButton.className = 'btn btn-danger';
 
-            td2.appendChild(deleteButton);
-            listItem.appendChild(td1);
-            listItem.appendChild(td2);
-            mitgliederListe.appendChild(listItem);
+        //     td1.innerHTML = `
+        //     <div class="thumb">
+        //         <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+        //     </div>
+        //     <div class="candidate-list-details">
+        //         <div class="candidate-list-info">
+        //             <div class="candidate-list-title">
+        //                 <h5 class="mb-0"><a href="#">${neuesMitgliedName}</a></h5>
+        //             </div>
+        //         </div>
+        //     </div>
+        // `;
+        //     deleteButton.innerHTML = '<i class="far fa-trash-alt"></i>';
+        //     deleteButton.onclick = function () {
+        //         listItem.remove();
+        //     };
 
-            // Formular ausblenden, nachdem das neue Mitglied hinzugefügt wurde
-            document.getElementById('neuesMitgliedForm').style.display = 'none';
-             document.getElementById('popup').style.display = 'block';
+        //     td2.appendChild(deleteButton);
+        //     listItem.appendChild(td1);
+        //     listItem.appendChild(td2);
+        //     mitgliederListe.appendChild(listItem);
 
-            // Zusätzliche Logik zum Hinzufügen des neuen Mitglieds zur Datenbank kann hier implementiert werden
+        //     // Formular ausblenden, nachdem das neue Mitglied hinzugefügt wurde
+        //     document.getElementById('neuesMitgliedForm').style.display = 'none';
+        //      document.getElementById('popup').style.display = 'block';
+
+        //     // Zusätzliche Logik zum Hinzufügen des neuen Mitglieds zur Datenbank kann hier implementiert werden
         }
 
-        // AJAX-Anfrage an den Server senden, um alle Benutzerdaten abzurufen
-        $(document).ready(function () {
-            $.ajax({
-                url: "/api/get_all_users", // URL für die Backend-Funktion zum Abrufen aller Benutzer
-                type: "GET",
-                success: function (response) {
-                    var users = JSON.parse(response);
-                    var vorschlaegeListe = document.getElementById('vorschlaege');
+// AJAX-Anfrage an den Server senden, um alle Benutzerdaten abzurufen
+$(document).ready(function () {
+    $.ajax({
+        url: "/api/get_all_users", // URL für die Backend-Funktion zum Abrufen aller Benutzer
+        type: "GET",
+        success: function (response) {
+            var users = JSON.parse(response);
+            var vorschlaegeListe = document.getElementById('vorschlaege');
 
-                    // Iteriere durch Benutzer und füge ihre Vor- und Nachnamen als Optionen hinzu
-                    users.forEach(function (user) {
-                        var option = document.createElement('option');
-                        option.value = user.email;
-                        vorschlaegeListe.appendChild(option);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    // Fehlerbehandlung hier einfügen
-                }
+            // Iteriere durch Benutzer und füge ihre E-Mails als Optionen hinzu
+            users.forEach(function (user) {
+                var option = document.createElement('option');
+                option.value = user.email;
+                vorschlaegeListe.appendChild(option);
             });
-        });
-
-        // Funktion zum Laden von Vorschlägen basierend auf dem eingegebenen Text
-        function ladeVorschlaege() {
-            var inputText = document.getElementById('neuesMitgliedName').value.toLowerCase();
-            var vorschlaege = document.getElementById('vorschlaege').childNodes;
-
-            // Filtere die Vorschläge basierend auf dem eingegebenen Text
-            for (var i = 0; i < vorschlaege.length; i++) {
-                var optionValue = vorschlaege[i].value.toLowerCase();
-                if (optionValue.includes(inputText)) {
-                    vorschlaege[i].style.display = 'block';
-                } else {
-                    vorschlaege[i].style.display = 'none';
-                }
-            }
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            // Fehlerbehandlung hier einfügen
         }
+    });
+});
 
-        // Event-Listener für das Eingabefeld, um Vorschläge basierend auf dem eingegebenen Text zu laden
-        document.getElementById('neuesMitgliedName').addEventListener('input', ladeVorschlaege);
+// Funktion zum Laden von Vorschlägen basierend auf dem eingegebenen Text
+function ladeVorschlaege() {
+    var inputText = document.getElementById('neuesMitgliedName').value.toLowerCase();
+    var vorschlaege = document.getElementById('vorschlaege');
+
+    // Lösche vorhandene Optionen
+    vorschlaege.innerHTML = "";
+
+    // Füge Optionen basierend auf dem eingegebenen Text hinzu
+    var options = document.querySelectorAll('#vorschlaege option');
+    options.forEach(function (option) {
+        var optionValue = option.value.toLowerCase();
+        if (optionValue.includes(inputText)) {
+            vorschlaege.appendChild(option);
+        }
+    });
+}

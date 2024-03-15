@@ -45,7 +45,7 @@ function addNewComment() {
                <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;" id="newComment">
             <div class="d-flex flex-start w-100">
               <img class="rounded-circle shadow-1-strong me-3"
-                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="40"
+                src="https://meinprofilbild.de/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fman1.472a9f22.png&w=1920&q=75" alt="avatar" width="40"
                 height="40" />
               <div class="form-outline w-100">
                 <textarea class="form-control" id="textAreaExample" rows="4"
@@ -78,10 +78,10 @@ function postComment() {
                                             <div class="card-body">
                                                 <div class="d-flex flex-start align-items-center">
                                                     <img class="rounded-circle shadow-1-strong me-3"
-                                                        src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                                                        src="https://meinprofilbild.de/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fman1.472a9f22.png&w=1920&q=75"
                                                         alt="avatar" width="60" height="60" />
                                                     <div>
-                                                        <h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
+                                                        <h6 class="fw-bold text-primary mb-1">Max Mustermann</h6>
                                                     </div>
                                                 </div>
     
