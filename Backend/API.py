@@ -64,7 +64,16 @@ def login():
 
         return {}, 200
 
-    return {}, 404  # error_msg="Nutzername oder Passwort falsch"
+    return {}, 404
+
+@app.route("/user/", methods=["GET"])
+def get_user():
+    user_id = get_user_id_from_session(session)
+    if user_id:
+        user_data = json.loads(service.user_get(id=user_id))
+        if user_data:
+            return user_data["first_name"] + " " + user_data["last_name"], 200
+    return "User not found", 404
 
 
 # Registration will be a Pop-Up on the Login-Page,

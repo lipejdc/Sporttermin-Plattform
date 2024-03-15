@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    fetch('/user/')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('userName').innerText = data;
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('form-createevent');
     form.addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission

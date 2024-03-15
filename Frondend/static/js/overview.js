@@ -1,3 +1,12 @@
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/user/')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('userName').innerText = data;
+    });
+});
+
+
 function applyFilters() {
     var searchInput = document.getElementById("searchInput").value.toLowerCase();
     var eventContainers = document.querySelectorAll(".col-lg-3");

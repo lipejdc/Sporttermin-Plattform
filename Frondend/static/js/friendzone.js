@@ -1,3 +1,12 @@
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/user/')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('userName').innerText = data;
+    });
+});
+
+
 // Funktion zum Abrufen aller Freundeszonen
        // Annahme: Der folgende Code wird in einem Webbrowser oder einer ähnlichen Umgebung ausgeführt
 
@@ -25,24 +34,24 @@
 
 
 
-        // Fügen Sie diese Funktion hinzu, um den Benutzernamen zu aktualisieren
-        function updateUsername() {
-            $.ajax({
-                url: "/api/get_username", // URL für die Backend-Funktion zum Abrufen des Benutzernamens
-                type: "GET",
-                success: function (response) {
-                    var usernameLink = document.getElementById('usernameLink');
-                    usernameLink.innerHTML = response.username;
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                    // Fehlerbehandlung hier einfügen
-                }
-            });
-        }
+        // // Fügen Sie diese Funktion hinzu, um den Benutzernamen zu aktualisieren
+        // function updateUsername() {
+        //     $.ajax({
+        //         url: "/user/", // URL für die Backend-Funktion zum Abrufen des Benutzernamens
+        //         type: "GET",
+        //         success: function (response) {
+        //             var usernameLink = document.getElementById('usernameLink');
+        //             usernameLink.innerHTML = response.username;
+        //         },
+        //         error: function (xhr, status, error) {
+        //             console.error(error);
+        //             // Fehlerbehandlung hier einfügen
+        //         }
+        //     });
+        // }
 
         // Rufen Sie die Funktion bei Bedarf auf, z. B. beim Laden der Seite
-        updateUsername();
+        // updateUsername();
 
 
         // Funktion, um Gruppen dynamisch zu laden

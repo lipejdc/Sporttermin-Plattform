@@ -1,3 +1,11 @@
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/user/')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('userName').innerText = data;
+    });
+});
+
 window.addEventListener('load', (event) => {
     // Check if already accepted before, hide banner
     if (localStorage.getItem('gdpr-accept')==='ok'){
